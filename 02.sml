@@ -1,28 +1,24 @@
-fun cmdFromString s = let
-      val [dir, dist] = String.tokens Char.isSpace s
-      val i = valOf(Int.fromString dist)
-       in case dir
-            of "forward" => (i, 0)
-             | "down" => (0, i)
-             | "up" => (0, ~i)
+fun cmdParser getc =
+      ParserComb.wrap(Scan.scanf "%s %d\n", fn [Scan.STR s, Scan.INT i] =>
+        case (s, i)
+          of ("forward", i) => (i, 0)
+           | ("down", i) => (0, i)
+           | ("up", i) => (0, ~i)) getc
+
+fun parser getc = ParserComb.zeroOrMore cmdParser getc
+
+fun part1 cmds = let
+      fun step ((x', y'), (x, y)) = (x + x', y + y')
+       in op* (foldl step (0, 0) cmds)
       end
 
-fun readCmd () = Option.map cmdFromString (TextIO.inputLine TextIO.stdIn)
-
-fun part1 () = let
-      fun loop (x, y) =
-            case readCmd()
-              of SOME(x', y') => loop(x + x', y + y')
-               | NONE => x * y
-       in loop(0, 0)
+fun part2 cmds = let
+      fun step ((x', a'), (x, y, a)) = (x + x', y + a*x', a + a')
+      val (x, y, _) = foldl step (0, 0, 0) cmds
+       in x * y
       end
 
-fun part2 () = let
-      fun loop (x, y, a) =
-            case readCmd()
-              of SOME(x', a') => loop(x + x', y + a*x', a + a')
-               | NONE => x * y
-       in loop(0, 0, 0)
-      end
-
-val _ = print(Int.toString(part2()) ^ "\n")
+fun withInputFile f = IOUtil.withInputFile("02.in", f) TextIO.stdIn
+val cmds = valOf(withInputFile(TextIO.scanStream parser))
+val _ = print(Int.toString(part1 cmds)^"\n")
+val _ = print(Int.toString(part2 cmds)^"\n")
