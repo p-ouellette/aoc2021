@@ -12,7 +12,7 @@ fun part2 depths = let
        in loop(depths, 0)
       end
 
-fun withInputFile f = IOUtil.withInputFile("01.in", f) TextIO.stdIn
-val depths = valOf(withInputFile(TextIO.scanStream parser))
+fun readInput f = IOUtil.withInputFile(f, TextIO.scanStream parser) TextIO.stdIn
+val depths = valOf(readInput "01.in")
 val _ = print(Int.toString(part1 depths)^"\n")
 val _ = print(Int.toString(part2 depths)^"\n")

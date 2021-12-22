@@ -18,7 +18,7 @@ fun part2 cmds = let
        in x * y
       end
 
-fun withInputFile f = IOUtil.withInputFile("02.in", f) TextIO.stdIn
-val cmds = valOf(withInputFile(TextIO.scanStream parser))
+fun readInput f = IOUtil.withInputFile(f, TextIO.scanStream parser) TextIO.stdIn
+val cmds = valOf(readInput "02.in")
 val _ = print(Int.toString(part1 cmds)^"\n")
 val _ = print(Int.toString(part2 cmds)^"\n")
