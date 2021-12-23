@@ -1,9 +1,10 @@
-fun cmdParser getc =
-      ParserComb.wrap(Scan.scanf "%s %d\n", fn [Scan.STR s, Scan.INT i] =>
-        case (s, i)
-          of ("forward", i) => (i, 0)
-           | ("down", i) => (0, i)
-           | ("up", i) => (0, ~i)) getc
+fun cmdParser getc = ParserComb.wrap(
+      Scan.scanf "%s %d\n",
+      fn [Scan.STR s, Scan.INT i] =>
+        case s
+          of "forward" => (i, 0)
+           | "down" => (0, i)
+           | "up" => (0, ~i)) getc
 
 fun parser getc = ParserComb.zeroOrMore cmdParser getc
 
