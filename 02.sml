@@ -5,7 +5,6 @@ fun cmdParser getc = ParserComb.wrap(
           of "forward" => (i, 0)
            | "down" => (0, i)
            | "up" => (0, ~i)) getc
-
 fun parser getc = ParserComb.zeroOrMore cmdParser getc
 
 fun part1 cmds = let
