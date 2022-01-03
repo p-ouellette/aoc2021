@@ -23,7 +23,7 @@ val digits = map Set.fromList
        [0, 1, 2, 3, 4, 5, 6],
        [0, 1, 2, 3, 5, 6]
       ]
-fun isWireOn (wire:int, pat) = isSome(List.find (fn s => s = wire) pat)
+fun isWireOn (wire:int, pat) = List.exists (fn s => s = wire) pat
 fun segmentOfWire patterns = let
       fun count wire =
             foldl (fn (p, n) => if isWireOn(wire, p) then n+1 else n) 0 patterns
